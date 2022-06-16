@@ -18,11 +18,7 @@ class OrderCreationUseCase {
 
   public run(request: SellItemsRequest): void {
     const order: Order = new Order();
-    order.setStatus(OrderStatus.CREATED);
-    order.setItems([]);
-    order.setCurrency('EUR');
-    order.setTotal(0);
-    order.setTax(0);
+    order.status = OrderStatus.CREATED;
 
     for (const itemRequest of request.getRequests()) {
        const product: Product = this.productCatalog.getByName(itemRequest.getProductName());
@@ -31,7 +27,7 @@ class OrderCreationUseCase {
         throw new UnknownProductException();
       }
       else {
-        const unitaryTax: number = Math.round(product.getPrice() / 100 * product.getCategory().getTaxPercentage() * 100) / 100;
+        const unitaryTax: number = Math.round(product.getPrice() / 100 * product.getCategory().taxPercentage * 100) / 100;
         const unitaryTaxedAmount: number = Math.round((product.getPrice() + unitaryTax) * 100) / 100;
         const taxedAmount: number = Math.round(unitaryTaxedAmount * itemRequest.getQuantity() * 100) / 100;
         const taxAmount: number = unitaryTax * itemRequest.getQuantity();
@@ -41,10 +37,10 @@ class OrderCreationUseCase {
         orderItem.setQuantity(itemRequest.getQuantity());
         orderItem.setTax(taxAmount);
         orderItem.setTaxedAmount(taxedAmount);
-        order.getItems().push(orderItem);
+        order.items.push(orderItem);
 
-        order.setTotal(order.getTotal() + taxedAmount);
-        order.setTax(order.getTax() + taxAmount);
+        order.total = (order.total + taxedAmount);
+        order.tax = (order.getTax() + taxAmount);
       }
     }
 

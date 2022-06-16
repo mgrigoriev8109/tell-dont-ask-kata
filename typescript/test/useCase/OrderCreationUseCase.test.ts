@@ -12,9 +12,8 @@ import TestOrderRepository from '../doubles/TestOrderRepository';
 
 describe('OrderApprovalUseCase', () => {
   const orderRepository: TestOrderRepository = new TestOrderRepository();
-  let food: Category = new Category('food');
+  let food: Category = new Category('food', 10);
 
-  food.setTaxPercentage(10);
 
   const saladProduct = new Product();
   saladProduct.setName('salad');
@@ -44,21 +43,21 @@ describe('OrderApprovalUseCase', () => {
       useCase.run(request);
 
       const insertedOrder: Order = orderRepository.getSavedOrder();
-      expect(insertedOrder.getStatus()).toBe(OrderStatus.CREATED);
-      expect(insertedOrder.getTotal()).toBe(23.20);
-      expect(insertedOrder.getTax()).toBe((2.13));
-      expect(insertedOrder.getCurrency()).toBe(('EUR'));
-      expect(insertedOrder.getItems().length).toBe(2);
-      expect(insertedOrder.getItems()[0].getProduct().getName()).toBe('salad');
-      expect(insertedOrder.getItems()[0].getProduct().getPrice()).toBe(3.56);
-      expect(insertedOrder.getItems()[0].getQuantity()).toBe(2);
-      expect(insertedOrder.getItems()[0].getTaxedAmount()).toBe(7.84);
-      expect(insertedOrder.getItems()[0].getTax()).toBe(0.72);
-      expect(insertedOrder.getItems()[1].getProduct().getName()).toBe('tomato');
-      expect(insertedOrder.getItems()[1].getProduct().getPrice()).toBe(4.65);
-      expect(insertedOrder.getItems()[1].getQuantity()).toBe(3);
-      expect(insertedOrder.getItems()[1].getTaxedAmount()).toBe(15.36);
-      expect(insertedOrder.getItems()[1].getTax()).toBe(1.41);
+      expect(insertedOrder.status).toBe(OrderStatus.CREATED);
+      expect(insertedOrder.total).toBe(23.20);
+      expect(insertedOrder.tax).toBe((2.13));
+      expect(insertedOrder.currency).toBe(('EUR'));
+      expect(insertedOrder.items.length).toBe(2);
+      expect(insertedOrder.items[0].getProduct().getName()).toBe('salad');
+      expect(insertedOrder.items[0].getProduct().getPrice()).toBe(3.56);
+      expect(insertedOrder.items[0].getQuantity()).toBe(2);
+      expect(insertedOrder.items[0].getTaxedAmount()).toBe(7.84);
+      expect(insertedOrder.items[0].getTax()).toBe(0.72);
+      expect(insertedOrder.items[1].getProduct().getName()).toBe('tomato');
+      expect(insertedOrder.items[1].getProduct().getPrice()).toBe(4.65);
+      expect(insertedOrder.items[1].getQuantity()).toBe(3);
+      expect(insertedOrder.items[1].getTaxedAmount()).toBe(15.36);
+      expect(insertedOrder.items[1].getTax()).toBe(1.41);
   });
 
   it('unknownProduct', () => {

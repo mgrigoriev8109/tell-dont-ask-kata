@@ -18,11 +18,11 @@ class OrderShipmentUseCase {
   public run(request: OrderShipmentRequest): void {
     const order: Order = this.orderRepository.getById(request.getOrderId());
 
-    if (order.getStatus() === OrderStatus.CREATED || order.getStatus() === OrderStatus.REJECTED) {
+    if (order.status === OrderStatus.CREATED || order.status === OrderStatus.REJECTED) {
       throw new OrderCannotBeShippedException();
     }
 
-    if (order.getStatus() === OrderStatus.SHIPPED) {
+    if (order.status === OrderStatus.SHIPPED) {
       throw new OrderCannotBeShippedTwiceException();
     }
 
