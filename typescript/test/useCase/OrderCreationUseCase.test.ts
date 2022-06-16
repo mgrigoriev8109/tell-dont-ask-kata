@@ -12,8 +12,8 @@ import TestOrderRepository from '../doubles/TestOrderRepository';
 
 describe('OrderApprovalUseCase', () => {
   const orderRepository: TestOrderRepository = new TestOrderRepository();
-  let food: Category = new Category();
-  food.setName('food');
+  let food: Category = new Category('food');
+
   food.setTaxPercentage(10);
 
   const saladProduct = new Product();

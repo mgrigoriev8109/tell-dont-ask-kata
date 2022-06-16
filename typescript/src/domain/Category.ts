@@ -1,13 +1,13 @@
 class Category {
+  constructor(name: string) {
+      this.name = name;
+  }
+  
   private name: string;
   private taxPercentage: number;
 
   public getName(): string {
       return this.name;
-  }
-
-  public setName(name: string): void {
-      this.name = name;
   }
 
   public getTaxPercentage(): number {
